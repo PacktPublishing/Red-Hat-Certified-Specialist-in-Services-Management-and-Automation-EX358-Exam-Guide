@@ -1,0 +1,10 @@
+---
+- name: Cups printer queue setup
+  hosts: cups_servers
+  become: true
+  become_method: sudo
+
+  tasks:
+    - name: Enable print queue
+      command:
+        cmd: cupsenable printer-queue
