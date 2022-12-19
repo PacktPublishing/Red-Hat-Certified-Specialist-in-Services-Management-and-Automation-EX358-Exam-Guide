@@ -1,0 +1,42 @@
+---
+- name: Install and configure Apache httpd
+  hosts: rhel1.example.com
+  become: true
+  become_method: sudo
+
+  tasks:
+
+    - name: Install Apache httpd
+      package:
+        name: httpd
+        state: latest
+
+    - name: Copy Apache httpd web server configuration
+      template:
+        src: httpd.j2
+        dest: /etc/httpd/conf.d/website.conf
+
+    - name: Copy Apache httpd web server index.html
+      template:
+        src: httpd_html.j2
+        dest: /var/html/www/index.html
+
+    - name: Restore SELinux
+      command:
+        cmd: restorecon -Rv /var/
+
+    - name: Add firewall rules
+      firewalld:
+        service: http
+        state: enabled
+        permanent: true
+
+    - name: Reload firewall
+      command:
+        cmd: firewall-cmd --reload
+
+    - name: Start and enable Apache httpd
+      service:
+        name: httpd
+        state: started
+        enabled: true
