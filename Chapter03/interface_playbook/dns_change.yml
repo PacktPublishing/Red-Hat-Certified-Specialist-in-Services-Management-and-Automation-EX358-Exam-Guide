@@ -1,0 +1,23 @@
+---
+- hosts: interface_changes
+  become: yes
+  become_method: sudo
+  vars:
+    network_connections:
+      - name: enp0s3
+        state: up
+        type: ethernet
+        ip:
+          route_metric4: 100
+          dhcp4: no
+          gateway4: 192.168.1.1
+
+          dns:
+            - 8.8.4.4
+            - 1.1.1.1 
+
+          address:
+            - 192.168.1.198/24
+
+  roles:
+    - rhel-system-roles.network
