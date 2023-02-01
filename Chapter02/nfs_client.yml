@@ -1,0 +1,17 @@
+---
+- hosts: clients
+  become: true
+  become_method: sudo
+
+  tasks:
+  - name: Install nfs utilities
+    package:
+      name: nfs-utils
+      state: present
+
+  - name: Add the NFS share and mount it with fstab
+    mount:
+      path: /share
+      src: 192.168.1.198:/share/folder
+      state: mounted
+      fstype: nfs
