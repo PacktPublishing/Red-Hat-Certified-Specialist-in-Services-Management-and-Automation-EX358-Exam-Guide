@@ -1,0 +1,39 @@
+---
+- name: Setup null client email server
+  hosts: email_servers
+  become: true
+  become_method: sudo
+
+  tasks:
+    - name: Install postfix
+      package:
+        name: postfix
+        state: latest
+
+    - name: Open firewall rules for postfix
+      firewalld:
+        service: smtp
+        state: enabled
+        permanent: true
+
+    - name: Reload firewall
+      command:
+        cmd: firewall-cmd --reload
+
+    - name: Set configuration settings using a loop
+      command:
+        cmd: postconf -e "{{ item.name }} = {{ item.value }}"
+      loop:
+        - { name: 'inet_interfaces', value: 'loopback-only' }
+        - { name: 'myorigin', value: 'example.com' }
+        - { name: 'inet_protocols', value: 'ipv4' }
+        - { name: 'mydestination', value: '' }
+        - { name: 'mynetworks', value: '127.0.0.0/8' }
+        - { name: 'local_transport', value: 'error: no local delivery' }
+        - { name: 'relayhost', value: '[smtp.example.com]' }
+
+    - name: Restart and enable postfix to refresh config
+      service:
+        name: postfix
+        state: restarted
+        enabled: true

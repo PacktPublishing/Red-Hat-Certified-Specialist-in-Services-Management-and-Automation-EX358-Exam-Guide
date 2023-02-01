@@ -1,0 +1,45 @@
+---
+- name: Cups printer queue setup
+  hosts: cups_servers
+  become: true
+  become_method: sudo
+
+  tasks:
+    - name: Install cups
+      package:
+        name: cups
+        state: latest
+
+    - name: Start and enable cups service
+      service:
+        name: cups
+        state: started
+        enabled: true
+
+    - name: Enable firewall rules
+      firewalld:
+        service: mdns
+        permanent: true
+        state: enabled
+
+    - name: Enable firewall rules
+      firewalld:
+        port: 631/tcp
+        permanent: true
+        state: enabled
+
+    - name: Reload firewall
+      command:
+        cmd: firewall-cmd --reload
+
+    - name: Setup print queue
+      command:
+        cmd: lpadmin -p printer-queue -v ipp://BRW9C305BC2B044.local:631/ipp/print -m everywhere -E
+
+    - name: Set default print queue
+      command:
+        cmd: lpadmin -d printer-queue
+
+    - name: Test to ensure print queue is setup correctly
+      command:
+        cmd: lpstat -p printer-queue
