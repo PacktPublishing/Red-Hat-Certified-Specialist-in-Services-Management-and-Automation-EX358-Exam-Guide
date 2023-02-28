@@ -56,3 +56,8 @@ We also provide a PDF file that has color images of the screenshots/diagrams use
 **Eric McLeroy**
 brings over 15 years of technical expertise and experience in Virtualization, System Administration, Networking, and Automation to his educational works. In addition to his field experience, and certifications, Eric has 3 Masters degrees.
 Eric knows what it is like to be a certification student, as he has held 18 certifications from Red Hat, Cisco, VMWare, and Microsoft. This experience allows him to understand the experience as a student and focus his educational materials on the needs of those aiming to be certified. Eric also brings his first-hand experience in the tech trenches to ensure his works are practical and will help in your daily job activities of working on mission critical production systems.
+
+### Download a free PDF
+
+ <i>If you have already purchased a print or Kindle version of this book, you can get a DRM-free PDF version at no cost.<br>Simply click on the link to claim your free PDF.</i>
+<p align="center"> <a href="https://packt.link/free-ebook/9781803235493">https://packt.link/free-ebook/9781803235493 </a> </p>
